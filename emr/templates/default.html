@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AIG Reporting</title>
+    {% assets "css_all" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+    <style>
+            html, body{
+                background: #f8f8f8;
+            }
+    </style>
+</head>
+<body>
+<div class="container container-fluid">
+    <div class="row">
+        <div class="col-xs-offset-3 col-lg-6 col-sm-6 col-xs-6 col-md-6">
+            <img class="img img-responsive" src="/static/images/logo.png" width="160" height="160">
+            <div class="panel uk-margin">
+
+                <div class="panel-body">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="uk-alert-danger" uk-alert>
+                        <a class="uk-alert-close" uk-close></a>
+                        {% for message in messages %}
+                        {% for msg in message %}
+                        <strong>{{ msg|title }}</strong>
+                        <ul>
+                            {% for m in message[msg] %}
+                            <li>{{m}}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form method="post" action="{{url_for('default.index')}}">
+                        {{form.csrf_token}}
+                        <div class="form-group">
+                            <label>Username </label>
+                            <input type="text" name="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Password </label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <hr>
+                    <p>
+                        <small>Copyright &copy; 2017. All rights reserved. | AIG Business Solutions.</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% assets "js_all" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+</html>

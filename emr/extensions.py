@@ -26,6 +26,8 @@ assets.register(
 assets.register(
     'css_all',
     Bundle(
-        'bower_components/bootstrap/dist/css/bootstrap.min.css'
+        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+        'flatui/css/uikit.min.css',
+        'css/custom.css'
     )
 )

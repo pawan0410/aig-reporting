@@ -16,6 +16,8 @@ from emr.extensions import mail
 from emr.extensions import assets
 from emr.extensions import migrate
 
+from emr.default.views import default_blueprint
+
 
 def emr_app(config_name):
     """ Application Factories
@@ -34,6 +36,9 @@ def emr_app(config_name):
     migrate.init_app(app, db)
     mail.init_app(app)
     assets.init_app(app)
+
+    # Register blueprints
+    app.register_blueprint(default_blueprint)
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
     with app.app_context():
         db.create_all()
