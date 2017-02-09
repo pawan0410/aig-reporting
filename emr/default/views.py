@@ -9,6 +9,7 @@ from flask_login import login_user
 from flask_login import logout_user
 
 from emr.extensions import login_manager
+from emr.extensions import db
 from .forms import LoginForm
 from emr.models.user import User
 
@@ -37,6 +38,7 @@ def index():
         if user and user.active:
             user.authenticated = True
             login_user(user)
+            db.session.commit()
             return redirect(url_for('dashboard.index'))
         else:
             form.username.errors.append('System cannot identify your login credentials.')

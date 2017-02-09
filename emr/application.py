@@ -17,6 +17,7 @@ from emr.extensions import assets
 from emr.extensions import migrate
 
 from emr.default.views import default_blueprint
+from emr.dashboard.views import dashboard_blueprint
 
 
 def emr_app(config_name):
@@ -39,6 +40,7 @@ def emr_app(config_name):
 
     # Register blueprints
     app.register_blueprint(default_blueprint)
+    app.register_blueprint(dashboard_blueprint)
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
     with app.app_context():
         db.create_all()

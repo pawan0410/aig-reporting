@@ -1,16 +1,61 @@
 import pymssql
 from emr.config import Config
+from flask import current_app
 
 
-conn1 = pymssql.connect(Config.MSSQL_HOST, Config.MSSQL_USERNAME, Config.MSSQL_PASSWORD, "Medstreaming")
+class MedStreaming(object):
 
-medstreaming = conn1.cursor(as_dict=True)
+    def __init__(self):
+        try:
+            self.connection = pymssql.connect(
+                Config.MSSQL_HOST,
+                Config.MSSQL_USERNAME,
+                Config.MSSQL_PASSWORD,
+                "Medstreaming"
+            )
+        except pymssql.OperationalError as e:
+            self.connection = None
+            current_app.logger.log(e.message)
 
-conn2 = pymssql.connect(Config.MSSQL_HOST, Config.MSSQL_USERNAME, Config.MSSQL_PASSWORD, "MedstreamingEMRDATADB")
+    @classmethod
+    def cursor(cls):
+        return cls.connection.cursor(as_dict=True)
 
-medstreaming_emr_data_db = conn2.cursor(as_dict=True)
 
-conn3 = pymssql.connect(Config.MSSQL_HOST, Config.MSSQL_USERNAME, Config.MSSQL_PASSWORD, "MedstreamingEMRDB")
+class MedStreamingEMRDataDb(object):
 
-medstreaming_emr_db = conn3.cursor(as_dict=True)
+    def __init__(self):
+        try:
+            self.connection = pymssql.connect(
+                Config.MSSQL_HOST,
+                Config.MSSQL_USERNAME,
+                Config.MSSQL_PASSWORD,
+                "MedstreamingEMRDATADB"
+            )
+        except pymssql.OperationalError as e:
+            self.connection = None
+            current_app.logger.log(e.message)
+
+    @classmethod
+    def cursor(cls):
+        return cls.connection.cursor(as_dict=True)
+
+
+class MedStreamingEMRDB(object):
+
+    def __init__(self):
+        try:
+            self.connection = pymssql.connect(
+                Config.MSSQL_HOST,
+                Config.MSSQL_USERNAME,
+                Config.MSSQL_PASSWORD,
+                "MedstreamingEMRDB"
+            )
+        except pymssql.OperationalError as e:
+            self.connection = None
+            current_app.logger.log(e.message)
+
+    @classmethod
+    def cursor(cls):
+        return cls.connection.cursor(as_dict=True)
 
