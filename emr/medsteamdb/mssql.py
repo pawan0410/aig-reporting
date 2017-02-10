@@ -3,59 +3,41 @@ from emr.config import Config
 from flask import current_app
 
 
-class MedStreaming(object):
-
-    def __init__(self):
-        try:
-            self.connection = pymssql.connect(
-                Config.MSSQL_HOST,
-                Config.MSSQL_USERNAME,
-                Config.MSSQL_PASSWORD,
-                "Medstreaming"
-            )
-        except pymssql.OperationalError as e:
-            self.connection = None
-            current_app.logger.log(e.message)
-
-    @classmethod
-    def cursor(cls):
-        return cls.connection.cursor(as_dict=True)
+try:
+    med_streaming_emr_db_connection = pymssql.connect(
+        Config.MSSQL_HOST,
+        Config.MSSQL_USERNAME,
+        Config.MSSQL_PASSWORD,
+        "MedstreamingEMRDB"
+    )
+    med_streaming_emr_db = med_streaming_emr_db_connection.cursor(as_dict=True)
+except pymssql.OperationalError as e:
+    current_app.logger.error(e)
 
 
-class MedStreamingEMRDataDb(object):
-
-    def __init__(self):
-        try:
-            self.connection = pymssql.connect(
-                Config.MSSQL_HOST,
-                Config.MSSQL_USERNAME,
-                Config.MSSQL_PASSWORD,
-                "MedstreamingEMRDATADB"
-            )
-        except pymssql.OperationalError as e:
-            self.connection = None
-            current_app.logger.log(e.message)
-
-    @classmethod
-    def cursor(cls):
-        return cls.connection.cursor(as_dict=True)
+try:
+    med_streaming_connection = pymssql.connect(
+        Config.MSSQL_HOST,
+        Config.MSSQL_USERNAME,
+        Config.MSSQL_PASSWORD,
+        "Medstreaming"
+    )
+    med_streaming = med_streaming_connection.cursor(as_dict=True)
+except pymssql.OperationalError as e:
+    current_app.logger.error(e)
 
 
-class MedStreamingEMRDB(object):
+try:
+    med_streaming_emr_data_db_connection = pymssql.connect(
+        Config.MSSQL_HOST,
+        Config.MSSQL_USERNAME,
+        Config.MSSQL_PASSWORD,
+        "MedstreamingEMRDATADB"
+    )
+    med_streaming_emr_data_db = med_streaming_emr_data_db_connection.cursor(as_dict=True)
+except pymssql.OperationalError as e:
+    current_app.logger.error(e)
 
-    def __init__(self):
-        try:
-            self.connection = pymssql.connect(
-                Config.MSSQL_HOST,
-                Config.MSSQL_USERNAME,
-                Config.MSSQL_PASSWORD,
-                "MedstreamingEMRDB"
-            )
-        except pymssql.OperationalError as e:
-            self.connection = None
-            current_app.logger.log(e.message)
 
-    @classmethod
-    def cursor(cls):
-        return cls.connection.cursor(as_dict=True)
+
 

@@ -1,0 +1,51 @@
+{% block extra_js %}
+    <script>
+        $(document).ready(function(e){
+            $('#saveSlotsBtn').click(function(e){
+                  $(this).prop('disabled', true);
+
+                  slots = {};
+                  $('.slots').each(function(){
+                     slots[$(this).data('id')] = $(this).val();
+                  });
+
+                  $.ajax({
+                    url: '/resources/slots',
+                    type: 'POST',
+                    data: {slots: JSON.stringify(slots) }
+                  }).done(function(response){
+                        if( response == 'success' ){
+                            $('#saveSlotsBtn').prop('disabled', false);
+                        }
+                  });
+            });
+        });
+    </script>
+{% endblock %}
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <td colspan="8">
+                    <button type="button" class="btn btn-sm btn-primary" id="saveSlotsBtn">Save</button>
+                </td>
+            </tr>
+                <tr>
+                    {% for r in resources %}
+                        <td>
+                           {{resources[r]}}
+                        </td>
+                        <td>
+                            <input type="text" class="form-control slots" data-id="{{r}}" value="{{resources_slots[r]}}">
+                        </td>
+                        {% if (loop.index % 4 == 0 ) %}
+                            </tr><tr>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Number of resources
+            </th>
+            <th>
+                Display order
+                <button class="btn btn-sm btn-primary pull-right" id="saveOrder">Save</button>
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rg in resources_group %}
+            <tr>
+                <td>{{rg.name}}</td>
+                <td>
+                    {{rg.count}}
+                </td>
+                <td>
+                    <input type="text" class="form-control orders" value="{{rg.order}}" data-id="{{rg.id}}">
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="/resources/{{rg.id}}">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="/resources/delete/{{rg.id}}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function(e){
+            $('#saveOrder').click(function(e){
+                    orders = {};
+                    $('.orders').each(function(i, r){
+                         orders[$(this).data('id')] = $(this).val();
+                    });
+
+                    $.ajax({
+                        url: 'resources/group_order',
+                        type: 'POST',
+                        data: {orders: JSON.stringify(orders)}
+                    }).done(function(response){
+                         window.location.reload();
+                    });
+            });
+        });
+    </script>
+{% endblock %}

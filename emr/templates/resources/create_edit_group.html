@@ -1,0 +1,65 @@
+{% block extra_js %}
+    <script>
+        $(document).ready(function(e){
+            $('#all').click(function(e){
+                 if( $(this).is(':checked') ){
+                     $('.r_checkbox').prop('checked', true);
+                 }else{
+                    $('.r_checkbox').prop('checked', false);
+                 }
+            });
+
+            $('.r_checkbox').click(function(e){
+                 if( $(this).is(':checked') ){
+                     if( $('.r_checkbox:checked').length == $('.r_checkbox').length){
+                        $('#all').prop('checked', true);
+                     }else{
+                        $('#all').prop('checked', false);
+                     }
+                 }else{
+                     $('#all').prop('checked', false);
+                 }
+            });
+        });
+    </script>
+{% endblock %}
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="/resources{% if id %}/{{id}} {% endif %}">
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            <label>
+                                <input type="checkbox" id="all">&nbsp;&nbsp;Select all
+                            </label>
+                            <button type="submit" class="btn btn-sm btn-primary pull-right">Save</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="Type a group name..." value="{{group_name}}">
+                        </td>
+                    </tr>
+                    <tr>
+                        {% for r in resources %}
+                            <td>
+                                <label>
+                                    <input type="checkbox"
+                                           name="resources[]" value="{{r}}"
+                                           class="r_checkbox" {% if r in selected_resources %} checked style="color: green;"{% endif %}>
+                                    &nbsp; <span {% if r in selected_resources %} checked style="color: green;"{% endif %}>{{resources[r]}} </span>
+                                </label>
+                            </td>
+                            {% if (loop.index % 5 == 0 ) %}
+                                </tr><tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

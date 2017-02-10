@@ -13,8 +13,8 @@ class Config:
     SQLALCHEMY_POOL_SIZE = 5
     SQLALCHEMY_POOL_TIMEOUT = 120
     SQLALCHEMY_POOL_RECYCLE = 280
-    MSSQL_HOST = '192.168.3.166'
-    MSSQL_USERNAME = 'mednet\m.atul'
+    MSSQL_HOST = '192.168.3.116'
+    MSSQL_USERNAME = r'mednet\m.atul'
     MSSQL_PASSWORD = 'test123'
 
 
